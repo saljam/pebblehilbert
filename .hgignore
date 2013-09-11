@@ -1,0 +1,10 @@
+# use glob syntax.
+syntax: glob
+
+# Ignore waf build tool generated files
+.waf*
+build
+.lock-waf*
+
+# Ignore other generated files
+serial_dump.txt
