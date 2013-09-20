@@ -13,6 +13,9 @@ PBL_APP_INFO(MY_UUID,
 Window window;
 Layer curve_layer;
 
+#define WIDTH 144
+#define HEIGHT 168
+
 GPoint current;
 void drawHilbert(GContext* ctx, int16_t x, int16_t y, int16_t xi, int16_t xj, int16_t yi, int16_t yj, int n)
 {
@@ -32,22 +35,23 @@ void drawHilbert(GContext* ctx, int16_t x, int16_t y, int16_t xi, int16_t xj, in
 }
 
 void curve_update(Layer *me, GContext *ctx) {
-	graphics_context_set_stroke_color(ctx, GColorBlack);
+	graphics_context_set_stroke_color(ctx, GColorWhite);
 	
 	GRect frame = layer_get_bounds(me);
 	
 	int n = 4;
 	current.x = 0;
 	current.y = 0;
-	drawHilbert(ctx, 0, 0,
-		frame.size.w, 0,
-		0, frame.size.h-20, n);
+	drawHilbert(ctx, 10, 10,
+		WIDTH-20, 10,
+		10, HEIGHT - 20, n);
 }
 
 void handle_init(AppContextRef ctx)
 {
 	window_init(&window, "Hilbert");
 	window_stack_push(&window, true);
+	window_set_background_color(&window, GColorBlack);
 	
 	GRect frame = window.layer.frame;
 
