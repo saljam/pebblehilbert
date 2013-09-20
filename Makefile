@@ -45,12 +45,8 @@ $O/%.o: src/%.c gen/resource_ids.auto.h
 $O/pebble-app.elf: $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBS)
 
-$O/pebble-app.raw.bin: $O/pebble-app.elf
-	arm-none-eabi-objcopy -R .stack -R .bss -O binary $< $@
-
-$O/pebble-app.bin: $O/pebble-app.raw.bin
-	cp $< $@
-	python $(SDK)/waftools/inject_metadata.py $@
+$O/pebble-app.bin: $O/pebble-app.elf
+	elf2pbla $< $@
 
 
 # Resources
@@ -86,7 +82,7 @@ dirs:
 clean:
 	$(RM) $(OBJECTS)
 	$(RM) $(RESOURCES)
-	$(RM) $O/pebble-app.bin $O/pebble-app.raw.bin $O/pebble-app.elf
+	$(RM) $O/pebble-app.bin $O/pebble-app.elf
 	$(RM) $R/app_resources.pbpack.table $R/app_resources.pbpack.manifest $R/app_resources.pbpack.data $R/app_resources.pbpack
 	$(RM) gen/resource_ids.auto.h gen/pebble-app.map
 	$(RM) bin/$(APPNAME).pbw
